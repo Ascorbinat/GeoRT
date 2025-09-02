@@ -5,7 +5,7 @@
 # LICENSE file in the root directory of this source tree.
 
 import numpy as np
-import sapien.core as sapien
+# import sapien.core as sapien
 from torch.utils.data import DataLoader
 import torch
 import torch.optim as optim
