@@ -1,0 +1,22 @@
+
+{
+    "name": "tesollo_right_only_thumb_clipped",
+
+    "urdf_path": "./assets/tesollo_right/tesollo_rotated_only_thumb_clipped.urdf",
+
+    "base_link": "world",
+
+    "joint_order": [
+        "rj_dg_1_1", "rj_dg_1_2", "rj_dg_1_3", "rj_dg_1_4"
+    ],
+
+    "fingertip_link": [
+        {
+            "name": "thumb",        
+            "link": "rl_dg_1_tip", 
+            "joint": ["rj_dg_1_1", "rj_dg_1_2", "rj_dg_1_3", "rj_dg_1_4"],  
+            "center_offset": [0.0, 0.0, -0.005],   
+            "human_hand_id": 4
+        }
+    ]
+}

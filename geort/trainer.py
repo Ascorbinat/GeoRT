@@ -166,6 +166,7 @@ class GeoRTTrainer:
         qpos_normalizer = HandFormatter(joint_lower_limit, joint_upper_limit)
         
         # Model.
+        print("Keypoint info")
         print(self.get_keypoint_info()["joint"])
         fk_model = FKModel(keypoint_joints=self.get_keypoint_info()["joint"]).cuda()
         
@@ -278,12 +279,12 @@ class GeoRTTrainer:
                 n_finger = point.size(1)
                 pinch_loss = 0
 
-                for i in range(n_finger):
-                    for j in range(i + 1, n_finger):
-                        distance = point[:, i, ...] - point[:, j, ...]
-                        mask = (torch.norm(distance, dim=-1) < 0.015).float()
-                        e_distance = ((embedded_point[:, i, ...] - embedded_point[:, j, ...]) ** 2).sum(dim=-1)
-                        pinch_loss += (mask * e_distance).mean() / (mask.sum() + 1e-7) * point.size(0)
+                #for i in range(n_finger):
+                #    for j in range(i + 1, n_finger):
+                #        distance = point[:, i, ...] - point[:, j, ...]
+                #        mask = (torch.norm(distance, dim=-1) < 0.015).float()
+                #        e_distance = ((embedded_point[:, i, ...] - embedded_point[:, j, ...]) ** 2).sum(dim=-1)
+                #        pinch_loss += (mask * e_distance).mean() / (mask.sum() + 1e-7) * point.size(0)
 
                 # [Curvature loss] -- Ensuring flatness.
                 direction = F.normalize(torch.randn_like(point), dim=-1, p=2)
@@ -341,11 +342,12 @@ class GeoRTTrainer:
                 if batch_idx % 50 == 0:
                     print(
                         f"Epoch {epoch} | Losses"
+                        f" - Loss: {format_loss(loss.item())}"
                         f" - Direction: {format_loss(direction_loss.item())}"
                         f" - Chamfer: {format_loss(chamfer_loss.item())}"
                         f" - Curvature: {format_loss(curvature_loss.item())}"
                         f" - Collision: {format_loss(collision_loss.item())}"
-                        f" - Pinch: {format_loss(pinch_loss.item())}"
+                        #f" - Pinch: {format_loss(pinch_loss.item())}"
                     )
 
 

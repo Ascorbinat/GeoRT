@@ -40,19 +40,27 @@ class HandKinematicModel:
             engine = sapien.Engine()
             
             if render:
-                renderer = sapien.VulkanRenderer()  
+                renderer = sapien.SapienRenderer()  
                 engine.set_renderer(renderer)
                 print("Enable Render Mode.")
             else:
                 renderer = None 
+                
             scene_config = sapien.SceneConfig()
-            scene_config.default_dynamic_friction = 1.0
-            scene_config.default_static_friction = 1.0
-            scene_config.default_restitution = 0.00
-            scene_config.contact_offset = 0.02
+            self.scene = sapien.Scene()
+
+            default_material = self.scene.create_physical_material(
+                static_friction=1.0,
+                dynamic_friction=1.0,
+                restitution=0.0,
+            )
+
+            loader = self.scene.create_urdf_loader()
+            loader.default_material = default_material
+            # scene_config.contact_offset = 0.02
             scene_config.enable_pcm = False
-            scene_config.solver_iterations = 25
-            scene_config.solver_velocity_iterations = 1
+            # scene_config.solver_iterations = 25
+            # scene_config.solver_velocity_iterations = 1
             scene = engine.create_scene(scene_config)  
             self.engine = engine 
 

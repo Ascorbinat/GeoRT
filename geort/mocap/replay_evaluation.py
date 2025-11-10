@@ -30,7 +30,7 @@ def main():
     
     # Run!
     while True:
-        for i in range(10):
+        for i in range(1):
             viewer_env.update()
 
         result = mocap.get()
